@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<system xmlns="http://www.eiffel.com/developers/xml/configuration-1-23-0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.eiffel.com/developers/xml/configuration-1-23-0 http://www.eiffel.com/developers/xml/configuration-1-23-0.xsd" name="simple_xlsx" uuid="f61a6d2d-aa96-47ac-a3fa-24239e39617b" library_target="simple_xlsx">
+	<description>simple_xlsx library</description>
+	<target name="simple_xlsx">
+		<root all_classes="true"/>
+		<version major="0" minor="0" release="1" build="1"/>
+		<option warning="warning" manifest_array_type="mismatch_warning">
+			<assertions precondition="true" postcondition="true" check="true" invariant="true" loop="true" supplier_precondition="true"/>
+		</option>
+		<setting name="console_application" value="true"/>
+		<setting name="dead_code_removal" value="feature"/>
+		<capability>
+			<concurrency support="scoop"/>
+			<void_safety support="all"/>
+		</capability>
+		<library name="base" location="$ISE_LIBRARY/library/base/base.ecf"/>
+		<library name="time" location="$ISE_LIBRARY/library/time/time.ecf"/>
+		<library name="simple_file" location="D:\prod\simple_file\simple_file.ecf"/>
+		<library name="simple_xml" location="D:\prod\simple_xml\simple_xml.ecf"/>
+		<library name="simple_archive" location="D:\prod\simple_archive\simple_archive.ecf"/>
+		<cluster name="src" location="./src/" recursive="true">
+			<file_rule>
+				<exclude>/.git$</exclude>
+				<exclude>/.svn$</exclude>
+				<exclude>/EIFGENs$</exclude>
+			</file_rule>
+		</cluster>
+	</target>
+	<target name="simple_xlsx_tests" extends="simple_xlsx">
+		<description>Test target for simple_xlsx</description>
+		<root class="TEST_APP" feature="make"/>
+		<library name="testing" location="$ISE_LIBRARY/library/testing/testing.ecf"/>
+		<library name="simple_testing" location="D:\prod\simple_testing\simple_testing.ecf"/>
+		<cluster name="tests" location="./testing/" recursive="true"/>
+	</target>
+</system>
