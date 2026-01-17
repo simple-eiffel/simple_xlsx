@@ -43,9 +43,9 @@
 <body>
     <header>
         <h1>simple_xlsx</h1>
-        <p class="tagline"><!-- TODO: Add tagline --></p>
+        <p class="tagline">Read and write Excel (.xlsx) files using Office Open XML format</p>
         <div class="badges">
-            <span class="badge badge-version">v0.0.1</span>
+            <span class="badge badge-version">v0.1.0</span>
             <span class="badge badge-license">MIT</span>
             <span class="badge badge-codegen">Built with simple_codegen</span>
         </div>
@@ -65,10 +65,14 @@
         <section id="overview">
             <h2>Overview</h2>
             <p>
-                <strong>simple_xlsx</strong> is part of the <strong>simple_*</strong> ecosystem
-                of focused, single-purpose Eiffel libraries with full Design by Contract support.
+                <strong>simple_xlsx</strong> provides Eiffel applications with the ability to read and write
+                Microsoft Excel files in the modern .xlsx format (Office Open XML). It uses SIMPLE_XML for
+                XML parsing/building and SIMPLE_ZIP from simple_archive for ZIP compression.
             </p>
-            <!-- TODO: Add detailed description -->
+            <p style="margin-top: 1rem;">
+                Part of the <strong>simple_*</strong> ecosystem of focused, single-purpose Eiffel libraries
+                with full Design by Contract support.
+            </p>
         </section>
 
         <section id="quick-start">
@@ -78,18 +82,68 @@
 <pre><code><span class="comment">-- Set SIMPLE_EIFFEL=D:\prod</span>
 &lt;library name="simple_xlsx" location="$SIMPLE_EIFFEL/simple_xlsx/simple_xlsx.ecf"/&gt;</code></pre>
 
-            <h3>Basic Usage</h3>
+            <h3>Reading an Excel File</h3>
 <pre><code><span class="keyword">local</span>
-    l_obj: <span class="type">SIMPLE_XLSX</span>
+    xlsx: <span class="type">SIMPLE_XLSX</span>
+    workbook: <span class="type">XLSX_WORKBOOK</span>
+    sheet: <span class="type">XLSX_SHEET</span>
 <span class="keyword">do</span>
-    <span class="keyword">create</span> l_obj.make
-    <span class="comment">-- TODO: Add example</span>
+    <span class="keyword">create</span> xlsx.make
+
+    <span class="comment">-- Open workbook</span>
+    workbook := xlsx.open (<span class="string">"data.xlsx"</span>)
+
+    <span class="comment">-- Get first sheet</span>
+    sheet := workbook.sheet (1)
+
+    <span class="comment">-- Read cell value</span>
+    print (sheet.cell (<span class="string">"A1"</span>).as_string)
+<span class="keyword">end</span></code></pre>
+
+            <h3>Creating an Excel File</h3>
+<pre><code><span class="keyword">local</span>
+    xlsx: <span class="type">SIMPLE_XLSX</span>
+    workbook: <span class="type">XLSX_WORKBOOK</span>
+    sheet: <span class="type">XLSX_SHEET</span>
+<span class="keyword">do</span>
+    <span class="keyword">create</span> xlsx.make
+
+    <span class="comment">-- Create new workbook</span>
+    workbook := xlsx.create_workbook
+
+    <span class="comment">-- Add a sheet</span>
+    sheet := workbook.add_sheet (<span class="string">"Sales Data"</span>)
+
+    <span class="comment">-- Add headers and data</span>
+    sheet.set_cell (<span class="string">"A1"</span>, <span class="string">"Product"</span>)
+    sheet.set_cell (<span class="string">"B1"</span>, <span class="string">"Quantity"</span>)
+    sheet.set_cell (<span class="string">"A2"</span>, <span class="string">"Widget"</span>)
+    sheet.set_cell (<span class="string">"B2"</span>, 100)
+
+    <span class="comment">-- Save</span>
+    workbook.save (<span class="string">"output.xlsx"</span>)
 <span class="keyword">end</span></code></pre>
         </section>
 
         <section id="features">
             <h2>Features</h2>
             <div class="feature-grid">
+                <div class="feature-card">
+                    <h4>Read Excel Files</h4>
+                    <p>Open existing .xlsx files and access cell data, formulas, and styles.</p>
+                </div>
+                <div class="feature-card">
+                    <h4>Write Excel Files</h4>
+                    <p>Create new spreadsheets programmatically with multiple sheets.</p>
+                </div>
+                <div class="feature-card">
+                    <h4>Multiple Sheets</h4>
+                    <p>Full support for workbooks with multiple worksheets.</p>
+                </div>
+                <div class="feature-card">
+                    <h4>Cell Access</h4>
+                    <p>Get/set cells by A1 notation or row/column index.</p>
+                </div>
                 <div class="feature-card">
                     <h4>Design by Contract</h4>
                     <p>Full preconditions, postconditions, and class invariants.</p>
@@ -98,16 +152,12 @@
                     <h4>Void Safety</h4>
                     <p>Fully void-safe implementation with proper attached/detachable handling.</p>
                 </div>
-                <div class="feature-card">
-                    <h4>SCOOP Compatible</h4>
-                    <p>Ready for concurrent programming with SCOOP.</p>
-                </div>
-                <!-- TODO: Add more feature cards -->
             </div>
         </section>
 
         <section id="api">
             <h2>API Reference</h2>
+
             <h3>SIMPLE_XLSX</h3>
             <table>
                 <thead>
@@ -115,7 +165,50 @@
                 </thead>
                 <tbody>
                     <tr><td><code class="inline-code">make</code></td><td>Create instance</td></tr>
-                    <!-- TODO: Add more features -->
+                    <tr><td><code class="inline-code">open (path)</code></td><td>Open existing Excel file</td></tr>
+                    <tr><td><code class="inline-code">create_workbook</code></td><td>Create new workbook</td></tr>
+                </tbody>
+            </table>
+
+            <h3>XLSX_WORKBOOK</h3>
+            <table>
+                <thead>
+                    <tr><th>Feature</th><th>Description</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td><code class="inline-code">sheet (index)</code></td><td>Get sheet by index (1-based)</td></tr>
+                    <tr><td><code class="inline-code">sheet_by_name (name)</code></td><td>Get sheet by name</td></tr>
+                    <tr><td><code class="inline-code">add_sheet (name)</code></td><td>Add new worksheet</td></tr>
+                    <tr><td><code class="inline-code">sheet_count</code></td><td>Number of sheets</td></tr>
+                    <tr><td><code class="inline-code">save (path)</code></td><td>Save workbook to file</td></tr>
+                </tbody>
+            </table>
+
+            <h3>XLSX_SHEET</h3>
+            <table>
+                <thead>
+                    <tr><th>Feature</th><th>Description</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td><code class="inline-code">cell (ref)</code></td><td>Get cell by A1 reference</td></tr>
+                    <tr><td><code class="inline-code">cell_at (row, col)</code></td><td>Get cell by row/column</td></tr>
+                    <tr><td><code class="inline-code">set_cell (ref, value)</code></td><td>Set cell value</td></tr>
+                    <tr><td><code class="inline-code">row_count</code></td><td>Number of rows with data</td></tr>
+                    <tr><td><code class="inline-code">column_count</code></td><td>Number of columns with data</td></tr>
+                </tbody>
+            </table>
+
+            <h3>XLSX_CELL</h3>
+            <table>
+                <thead>
+                    <tr><th>Feature</th><th>Description</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td><code class="inline-code">as_string</code></td><td>Get value as string</td></tr>
+                    <tr><td><code class="inline-code">as_integer</code></td><td>Get value as integer</td></tr>
+                    <tr><td><code class="inline-code">as_real</code></td><td>Get value as real</td></tr>
+                    <tr><td><code class="inline-code">is_empty</code></td><td>Check if cell is empty</td></tr>
+                    <tr><td><code class="inline-code">cell_type</code></td><td>Get cell data type</td></tr>
                 </tbody>
             </table>
         </section>
@@ -124,8 +217,17 @@
             <h2>Testing</h2>
             <p>Run the test suite:</p>
 <pre><code>cd simple_xlsx
-ec.exe -batch -config simple_xlsx.ecf -target simple_xlsx_tests -c_compile
+/d/prod/ec.sh test -config simple_xlsx.ecf -target simple_xlsx_tests
 ./EIFGENs/simple_xlsx_tests/F_code/simple_xlsx.exe</code></pre>
+        </section>
+
+        <section id="dependencies">
+            <h2>Dependencies</h2>
+            <ul>
+                <li><strong>simple_file</strong> - File system operations</li>
+                <li><strong>simple_xml</strong> - XML parsing and building</li>
+                <li><strong>simple_archive</strong> - ZIP support via minizip-ng 4.0.10</li>
+            </ul>
         </section>
     </main>
 
