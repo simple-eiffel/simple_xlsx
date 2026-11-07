@@ -15,9 +15,9 @@
 		</capability>
 		<library name="base" location="$ISE_LIBRARY/library/base/base.ecf"/>
 		<library name="time" location="$ISE_LIBRARY/library/time/time.ecf"/>
-		<library name="simple_file" location="D:\prod\simple_file\simple_file.ecf"/>
-		<library name="simple_xml" location="D:\prod\simple_xml\simple_xml.ecf"/>
-		<library name="simple_archive" location="D:\prod\simple_archive\simple_archive.ecf"/>
+		<library name="simple_file" location="$SIMPLE_EIFFEL/simple_file/simple_file.ecf"/>
+		<library name="simple_xml" location="$SIMPLE_EIFFEL/simple_xml/simple_xml.ecf"/>
+		<library name="simple_archive" location="$SIMPLE_EIFFEL/simple_archive/simple_archive.ecf"/>
 		<cluster name="src" location="./src/" recursive="true">
 			<file_rule>
 				<exclude>/.git$</exclude>
@@ -30,7 +30,7 @@
 		<description>Test target for simple_xlsx</description>
 		<root class="TEST_APP" feature="make"/>
 		<library name="testing" location="$ISE_LIBRARY/library/testing/testing.ecf"/>
-		<library name="simple_testing" location="D:\prod\simple_testing\simple_testing.ecf"/>
+		<library name="simple_testing" location="$SIMPLE_EIFFEL/simple_testing/simple_testing.ecf"/>
 		<cluster name="tests" location="./testing/" recursive="true"/>
 	</target>
 </system>
